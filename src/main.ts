@@ -88,7 +88,7 @@ if (puntuacionFinal <= 4) {
 }else if (puntuacionFinal >= 6 && puntuacionFinal <= 7) {
   mensaje = "Casi casi..., ¿quieres saber lo que hubiera sucedido? Pulsa Saber";
 }else if (puntuacionFinal === 7.5) {
-  mensaje = "Habrías ganado, ooooohhh vuelve a intentarlo";
+  mensaje = "Lo has clavado ! Enhorabuena !";
   deshabilitarBoton("saber");
 }
 else if (puntuacionFinal > 7.5) {
