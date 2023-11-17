@@ -26,83 +26,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
  
+  const muestraPuntuacion = () => {
+    const elementoMuestraPuntuacion = document.getElementById("puntuacion");
+    if (elementoMuestraPuntuacion !== null && elementoMuestraPuntuacion !== undefined) {
+      elementoMuestraPuntuacion.innerHTML = `PUNTUACIÓN ${puntuacionFinal}`;
+    }
+  }
+
+  const mostrarMensaje = (mensaje: string) => {
+    const elemento = document.getElementById("mensaje");
+    if (elemento !== null && elemento !== undefined) {
+      elemento.innerHTML = mensaje;
+    }
+  
+  }
+
 
 const dameCarta = () => Math.floor(Math.random() * 10) + 1;
 
-const repartoCarta = () => {
-  
+const generarNumeroCarta = () => {
   numeroCarta = dameCarta();
   if (numeroCarta > 7) {
     numeroCarta = numeroCarta + 2;
   }
+}
+
+const repartoCarta = () => {
+  generarNumeroCarta();
   habilitarBoton("plantate");
-
   mostrarCarta(numeroCarta);
-  muestraPuntacion();
-
+  calculaPuntacion();
+  comprobarPartida();
 };
 
-const muestraPuntacion = () => {
-  const elementoMuestraPuntuacion = document.getElementById("puntuacion");
+const calculaPuntacion = () => {
   puntuacionFinal = puntuacionFinal + puntuacion;
-  if (elementoMuestraPuntuacion !== null && elementoMuestraPuntuacion !== undefined) {
-    elementoMuestraPuntuacion.innerHTML = `PUNTUACIÓN ${puntuacionFinal}`;
-  }
-  if (puntuacionFinal >= 7.5) {
-  resultadoPuntuacion();
-}
+  muestraPuntuacion();
 }
 
-const resultadoPuntuacion = () => {
-  let mensaje = "";
+const comprobarPartida = () => {
   if (puntuacionFinal === 7.5) {
-    mensaje = "Lo has clavado ! Enhorabuena !";
-  }else {
-    mensaje = "GAME OVER VUELVA A INTENTARLO";
-  }
+      hasGanado();
+  } else if (puntuacionFinal > 7.5) {
+      hasPerdido();
+    }
     
-   const resultado = document.getElementById("mensaje");
-    if (resultado !== null && resultado !== undefined) {
-      resultado.innerHTML = mensaje;
-    }
-  deshabilitarBoton("damecarta");
-  deshabilitarBoton("plantate");
-  habilitarBoton("nuevapartida");
-  deshabilitarBoton("saber");
-    }
+  }
+  const hasGanado = () => { 
+    mostrarMensaje ("Lo has clavado ! Enhorabuena !");
+    deshabilitarBoton("damecarta");
+    deshabilitarBoton("plantate");
+    habilitarBoton("nuevapartida");
+    deshabilitarBoton("saber");
+  }
+  const hasPerdido = () => {
+    mostrarMensaje ("GAME OVER VUELVA A INTENTARLO");
+    deshabilitarBoton("damecarta");
+    deshabilitarBoton("plantate");
+    habilitarBoton("nuevapartida");
+    deshabilitarBoton("saber");
+  }
 
 const comprobarBoton = document.getElementById("damecarta");
-
-comprobarBoton?.addEventListener("click", repartoCarta);
-
+if (comprobarBoton !== null && comprobarBoton !== undefined && comprobarBoton instanceof HTMLButtonElement){
+comprobarBoton.addEventListener("click", repartoCarta);
+};
 //PARA PLANTARSE
 const plantarse = () => {
-
-  habilitarBoton("saber");
-
-  let mensaje = "";
-if (puntuacionFinal <= 4) {
-  mensaje = "Has sido muy conservador, ¿quieres saber lo que hubiera sucedido? Pulsa Saber";
-} else if (puntuacionFinal > 4 && puntuacionFinal <= 5.5) {
-  mensaje = "Te ha entrado el canguelo eh?, ¿quieres saber lo que hubiera sucedido? Pulsa Saber";
-}else if (puntuacionFinal >= 6 && puntuacionFinal <= 7) {
-  mensaje = "Casi casi..., ¿quieres saber lo que hubiera sucedido? Pulsa Saber";
-}else if (puntuacionFinal === 7.5) {
-  mensaje = "Lo has clavado ! Enhorabuena !";
-  deshabilitarBoton("saber");
-}
-else if (puntuacionFinal > 7.5) {
-  mensaje = "GAME OVER VUELVA A INTENTARLO";
-}
-const elementoPlantarse = document.getElementById("mensaje");
-if (elementoPlantarse) {
-  elementoPlantarse.innerHTML = mensaje;
-};
+habilitarBoton("saber");
+mensajePlantarse();
 deshabilitarBoton("damecarta");
 deshabilitarBoton("plantate");
 habilitarBoton("nuevapartida");
 
 };
+
+const mensajePlantarse = () => {
+if (puntuacionFinal <= 4) {
+  mostrarMensaje ("Has sido muy conservador, ¿quieres saber lo que hubiera sucedido? Pulsa Saber");
+} else if (puntuacionFinal > 4 && puntuacionFinal <= 5.5) {
+  mostrarMensaje ("Te ha entrado el canguelo eh?, ¿quieres saber lo que hubiera sucedido? Pulsa Saber");
+}else if (puntuacionFinal >= 6 && puntuacionFinal <= 7) {
+  mostrarMensaje ("Casi casi..., ¿quieres saber lo que hubiera sucedido? Pulsa Saber");
+}
+}
 
 const plantarseBoton = document.getElementById("plantate");
 if (plantarseBoton !== null && plantarseBoton !== undefined){
@@ -111,9 +118,9 @@ if (plantarseBoton !== null && plantarseBoton !== undefined){
 //PARA MOSTRAR LA CARTA
 const mostrarCarta = (carta: number) => {
     const imagenCarta = obternetImagenCarta(carta);
-    const elementoCarta = document.getElementById("carta") as HTMLImageElement;
+    const elementoCarta = document.getElementById("carta");
 
-    if (elementoCarta !== null && elementoCarta !== undefined) {
+    if (elementoCarta !== null && elementoCarta !== undefined && elementoCarta instanceof HTMLImageElement) {
         elementoCarta.src = imagenCarta;
     }
 
@@ -170,31 +177,33 @@ const nuevaPartida = () => {
   puntuacion = 0;
   numeroCarta = 0;
   puntuacionFinal = 0;
-  const elementoMuestraPuntuacion = document.getElementById("puntuacion");
-  if (elementoMuestraPuntuacion !== null && elementoMuestraPuntuacion !== undefined) {
-    elementoMuestraPuntuacion.innerHTML = `PUNTUACIÓN ${puntuacionFinal}`;
-  }
-  const elementoPlantarse = document.getElementById("mensaje");
-  if (elementoPlantarse !== null && elementoPlantarse !== undefined) {
-    elementoPlantarse.innerHTML = "";
-  }
-  const elementoCarta = document.getElementById("carta") as HTMLImageElement;
-  if (elementoCarta !== null && elementoCarta !== undefined) {
-    elementoCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
-  }
-habilitarBoton("damecarta");
-habilitarBoton("plantate");
-deshabilitarBoton("nuevapartida");
-deshabilitarBoton("saber");
-
+  muestraPuntuacion();
+  mostrarMensaje("");
+  mostrarCarta(0);
+  habilitarBoton("damecarta");
+  habilitarBoton("plantate");
+  deshabilitarBoton("nuevapartida");
+  deshabilitarBoton("saber");
 }
 
 const nuevapartidaBoton = document.getElementById("nuevapartida");
+    if (nuevapartidaBoton !== null && nuevapartidaBoton !== undefined && nuevapartidaBoton instanceof HTMLButtonElement){
     nuevapartidaBoton?.addEventListener("click", nuevaPartida);
-
+    }
 const saberPuntuacion = () => {
-repartoCarta();
-deshabilitarBoton("plantate");
+    generarNumeroCarta();
+    calculaPuntacion();
+    mostrarCarta(numeroCarta);
+  if (puntuacionFinal === 7.5) {
+    mostrarMensaje ( "Ooooohhhh, si no te hubieras plantado hubieras ganado");
+    deshabilitarBoton("saber");
+  } else if (puntuacionFinal > 7.5) {
+    mostrarMensaje ("Genial ! Te has pasado, si no te hubieras plantado hubieras perdido");
+    deshabilitarBoton("saber");
+  }
 }
+
 const saberBoton = document.getElementById("saber");
-    saberBoton?.addEventListener("click", saberPuntuacion);
+if (saberBoton !== null && saberBoton !== undefined && saberBoton instanceof HTMLButtonElement){
+    saberBoton.addEventListener("click", saberPuntuacion);
+}
