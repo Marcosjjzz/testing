@@ -49,6 +49,7 @@ const generarNumeroCarta = () => {
   if (numeroCarta > 7) {
     numeroCarta = numeroCarta + 2;
   }
+  return numeroCarta;
 }
 
 const repartoCarta = () => {
@@ -60,7 +61,7 @@ const repartoCarta = () => {
 };
 
 const calculaPuntacion = () => {
-  puntuacionFinal = puntuacionFinal + puntuacion;
+  puntuacionFinal = puntuacionFinal + puntuacionCarta(numeroCarta, puntuacion);
   muestraPuntuacion();
 }
 
@@ -129,48 +130,78 @@ const mostrarCarta = (carta: number) => {
 const obternetImagenCarta = (carta:number) => {
   switch (carta) {
     case 1:
-      puntuacion = 1;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
 
     case 2:
-      puntuacion = 2;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
 
     case 3:
-      puntuacion = 3;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
 
     case 4:
-      puntuacion = 4;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
       
     case 5:
-      puntuacion = 5;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
 
     case 6:
-      puntuacion = 6;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
       
     case 7:
-      puntuacion = 7;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
 
     case 10:
-      puntuacion = 0.5;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
 
     case 11:
-      puntuacion = 0.5;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
       
     case 12:
-      puntuacion = 0.5;
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
 
     default:
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
   }
+}
+
+const puntuacionCarta = (carta : number, puntuacion: number) => {
+  switch (carta) {
+    case 1:
+      puntuacion = 1;
+      break;
+    case 2:
+      puntuacion = 2;
+      break;
+    case 3:
+      puntuacion = 3;
+      break;
+    case 4:
+      puntuacion = 4;
+      break;
+    case 5:
+      puntuacion = 5;
+      break;
+    case 6:
+      puntuacion = 6;
+      break;
+    case 7:
+      puntuacion = 7;
+      break;
+    case 10:
+      puntuacion = 0.5;
+      break;
+    case 11:
+      puntuacion = 0.5;
+      break;
+    case 12:
+      puntuacion = 0.5;
+      break;
+    default:
+      puntuacion = 0;
+      break;
+  }
+  return puntuacion;
+
 }
 //PARA NUEVA PARTIDA
 const nuevaPartida = () => {
@@ -188,12 +219,15 @@ const nuevaPartida = () => {
 
 const nuevapartidaBoton = document.getElementById("nuevapartida");
     if (nuevapartidaBoton !== null && nuevapartidaBoton !== undefined && nuevapartidaBoton instanceof HTMLButtonElement){
-    nuevapartidaBoton?.addEventListener("click", nuevaPartida);
+    nuevapartidaBoton.addEventListener("click", nuevaPartida);
     }
 const saberPuntuacion = () => {
     generarNumeroCarta();
     calculaPuntacion();
     mostrarCarta(numeroCarta);
+    puntuacionSaber();
+}
+const puntuacionSaber = () => {
   if (puntuacionFinal === 7.5) {
     mostrarMensaje ( "Ooooohhhh, si no te hubieras plantado hubieras ganado");
     deshabilitarBoton("saber");
