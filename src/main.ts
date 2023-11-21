@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const dameCarta = () => Math.floor(Math.random() * 10) + 1;
 
-const generarNumeroCarta = (numeroCarta : number) => {
+const generarNumeroCarta = () => {
   if (numeroCarta > 7) {
     numeroCarta = numeroCarta + 2;
   }
@@ -52,10 +52,10 @@ const generarNumeroCarta = (numeroCarta : number) => {
 };
 
 const repartoCarta = () => {
-  const numeroAleatorio = dameCarta();
-   generarNumeroCarta(numeroAleatorio);
-   calculaPuntacion();
+  numeroCarta = dameCarta();
+   generarNumeroCarta();
    mostrarCarta(numeroCarta);
+   calculaPuntacion();
    comprobarPartida();
    habilitarBoton("plantate");
  };
