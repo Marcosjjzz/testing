@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const dameCarta = () => Math.floor(Math.random() * 10) + 1;
 
-const generarNumeroCarta = () => {
+const generarNumeroCarta = (numeroCarta: number) => {
   if (numeroCarta > 7) {
     numeroCarta = numeroCarta + 2;
   }
@@ -52,12 +52,12 @@ const generarNumeroCarta = () => {
 };
 
 const repartoCarta = () => {
-  numeroCarta = dameCarta();
-   generarNumeroCarta();
+  const numeroAlAzar = dameCarta(); // dame un numero al Azar
+   numeroCarta = generarNumeroCarta(numeroAlAzar);
    mostrarCarta(numeroCarta);
    calculaPuntacion();
-   comprobarPartida();
    habilitarBoton("plantate");
+   comprobarPartida();
  };
 
 const calculaPuntacion = () => {
@@ -65,7 +65,7 @@ const calculaPuntacion = () => {
   muestraPuntuacion();
 }
 const puntuacionCarta = (carta : number) => {
-  return carta < 7 ? carta : 0.5; 
+  return carta <= 7 ? carta : 0.5; 
  }
 
 const comprobarPartida = () => {
@@ -188,17 +188,15 @@ const nuevapartidaBoton = document.getElementById("nuevapartida");
     }
 const saberPuntuacion = () => {
     repartoCarta();
-    calculaPuntacion();
     mostrarCarta(numeroCarta);
     puntuacionSaber();
+    deshabilitarBoton("plantate");
 }
 const puntuacionSaber = () => {
   if (puntuacionFinal === 7.5) {
     mostrarMensaje ( "Ooooohhhh, si no te hubieras plantado hubieras ganado");
-    deshabilitarBoton("saber");
   } else if (puntuacionFinal > 7.5) {
     mostrarMensaje ("Genial ! Te has pasado, si no te hubieras plantado hubieras perdido");
-    deshabilitarBoton("saber");
   }
 }
 
