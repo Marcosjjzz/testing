@@ -44,26 +44,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const dameCarta = () => Math.floor(Math.random() * 10) + 1;
 
-const generarNumeroCarta = () => {
-  numeroCarta = dameCarta();
+const generarNumeroCarta = (numeroCarta : number) => {
   if (numeroCarta > 7) {
     numeroCarta = numeroCarta + 2;
   }
   return numeroCarta;
-}
-
-const repartoCarta = () => {
-  generarNumeroCarta();
-  habilitarBoton("plantate");
-  mostrarCarta(numeroCarta);
-  calculaPuntacion();
-  comprobarPartida();
 };
 
+const repartoCarta = () => {
+  const numeroAleatorio = dameCarta();
+   generarNumeroCarta(numeroAleatorio);
+   calculaPuntacion();
+   mostrarCarta(numeroCarta);
+   comprobarPartida();
+   habilitarBoton("plantate");
+ };
+
 const calculaPuntacion = () => {
-  puntuacionFinal = puntuacionFinal + puntuacionCarta(numeroCarta, puntuacion);
+  puntuacionFinal = puntuacionFinal + puntuacionCarta(numeroCarta);
   muestraPuntuacion();
 }
+const puntuacionCarta = (carta : number) => {
+  return carta < 7 ? carta : 0.5; 
+ }
 
 const comprobarPartida = () => {
   if (puntuacionFinal === 7.5) {
@@ -118,7 +121,7 @@ if (plantarseBoton !== null && plantarseBoton !== undefined){
 }
 //PARA MOSTRAR LA CARTA
 const mostrarCarta = (carta: number) => {
-    const imagenCarta = obternetImagenCarta(carta);
+    const imagenCarta = obternerImagenCarta(carta);
     const elementoCarta = document.getElementById("carta");
 
     if (elementoCarta !== null && elementoCarta !== undefined && elementoCarta instanceof HTMLImageElement) {
@@ -127,7 +130,7 @@ const mostrarCarta = (carta: number) => {
 
 };
 //PARA OBTENER LA IMAGEN DE LA CARTA
-const obternetImagenCarta = (carta:number) => {
+const obternerImagenCarta = (carta:number) => {
   switch (carta) {
     case 1:
       return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
@@ -164,45 +167,7 @@ const obternetImagenCarta = (carta:number) => {
   }
 }
 
-const puntuacionCarta = (carta : number, puntuacion: number) => {
-  switch (carta) {
-    case 1:
-      puntuacion = 1;
-      break;
-    case 2:
-      puntuacion = 2;
-      break;
-    case 3:
-      puntuacion = 3;
-      break;
-    case 4:
-      puntuacion = 4;
-      break;
-    case 5:
-      puntuacion = 5;
-      break;
-    case 6:
-      puntuacion = 6;
-      break;
-    case 7:
-      puntuacion = 7;
-      break;
-    case 10:
-      puntuacion = 0.5;
-      break;
-    case 11:
-      puntuacion = 0.5;
-      break;
-    case 12:
-      puntuacion = 0.5;
-      break;
-    default:
-      puntuacion = 0;
-      break;
-  }
-  return puntuacion;
 
-}
 //PARA NUEVA PARTIDA
 const nuevaPartida = () => {
   puntuacion = 0;
@@ -222,7 +187,7 @@ const nuevapartidaBoton = document.getElementById("nuevapartida");
     nuevapartidaBoton.addEventListener("click", nuevaPartida);
     }
 const saberPuntuacion = () => {
-    generarNumeroCarta();
+    repartoCarta();
     calculaPuntacion();
     mostrarCarta(numeroCarta);
     puntuacionSaber();
