@@ -110,20 +110,28 @@ if (saberBoton !== null && saberBoton !== undefined && saberBoton instanceof HTM
     saberBoton.addEventListener("click", saberPuntuacion);
 }
 const ganadoPerdido = (comprobar : boolean) => { 
-    if (comprobar === true){
-    mostrarMensaje ("Lo has clavado ! Enhorabuena !");
-    deshabilitarBoton("damecarta");
-    deshabilitarBoton("plantate");
-    habilitarBoton("nuevapartida");
-    deshabilitarBoton("saber");
-    } else {
-        mostrarMensaje ("GAME OVER VUELVA A INTENTARLO");
-        deshabilitarBoton("damecarta");
-        deshabilitarBoton("plantate");
-        habilitarBoton("nuevapartida");
-        deshabilitarBoton("saber");    
-    }
+  if (comprobar === true){
+      ganar();
+
+  } else {
+      perdido();
+  }
 };
+
+const ganar = () => { 
+mostrarMensaje ("Lo has clavado ! Enhorabuena !");
+deshabilitarBoton("damecarta");
+deshabilitarBoton("plantate");
+habilitarBoton("nuevapartida");
+deshabilitarBoton("saber");
+}
+const perdido = () => {
+mostrarMensaje ("GAME OVER VUELVA A INTENTARLO");
+deshabilitarBoton("damecarta");
+deshabilitarBoton("plantate");
+habilitarBoton("nuevapartida");
+deshabilitarBoton("saber"); 
+}
   
   const mensajePlantarse = () => {
   if (juego.puntuacionFinal <= 4) {
@@ -135,14 +143,14 @@ const ganadoPerdido = (comprobar : boolean) => {
   }
   }
   
-  const comprobarPartida = () => {
+  export const comprobarPartida = () => {
     if (juego.puntuacionFinal === 7.5) {
             ganadoPerdido(true);
     } else if (juego.puntuacionFinal > 7.5) {
             ganadoPerdido(false);
       }
-      
     }
+  
   const puntuacionSaber = () => {
     if (juego.puntuacionFinal === 7.5) {
       mostrarMensaje ( "Ooooohhhh, si no te hubieras plantado hubieras ganado");

@@ -8,3 +8,14 @@ export const juego: Juego = {
     numeroCarta: 0,
     puntuacionFinal: 0,
 }
+interface comprobarPuntuacion {
+    ganar: number
+    perder: number
+    sigue: number
+
+}
+export const comprobarPuntuacion: comprobarPuntuacion = {
+    ganar: 1,
+    perder: 2,
+    sigue: 0
+}

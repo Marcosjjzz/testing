@@ -15,8 +15,7 @@ export const generarNumeroCarta = (numeroCarta: number) => {
    }
    export const calculaPuntacion = () => {
     juego.puntuacionFinal = juego.puntuacionFinal + puntuacionCarta(juego.numeroCarta);
-  }
-  
+  };
 
     export const obternerImagenCarta = (carta:number) => {
         switch (carta) {
