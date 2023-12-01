@@ -1,6 +1,6 @@
 import {vi} from "vitest"
 import {juego} from "./model";
-import { generarNumeroCarta, puntuacionCarta} from "./motor";
+import { generarNumeroCarta, puntuacionCarta, comprobarPartida} from "./motor";
 
 
 describe("generarNumeroCarta", () => {
@@ -45,6 +45,34 @@ describe("puntuacionCarta", () => {
   });
 });
 
-
+describe("comprobarPartida", () => {
+it ("le doy un numero menor que 7.5 deberia devolver jugando", () => {
+  // Arrange
+  const puntuacion = 5;
+  // Act
+  const resultado = comprobarPartida(puntuacion);
+  vi.spyOn(juego, "puntuacionFinal", "get").mockReturnValue(5);
+  // Assert
+  expect(resultado).toBe("jugando");
+});
+it ("le doy un numero igual que 7.5 deberia devolver ganado", () => {
+  // Arrange
+  const puntuacion = 7.5;
+  // Act
+  const resultado = comprobarPartida(puntuacion);
+  vi.spyOn(juego, "puntuacionFinal", "get").mockReturnValue(7.5);
+  // Assert
+  expect(resultado).toBe("ganado");
+});
+it ("le doy un numero mayor que 7.5 deberia devolver perdido", () => {
+  // Arrange
+  const puntuacion = 8;
+  // Act
+  const resultado = comprobarPartida(puntuacion);
+  vi.spyOn(juego, "puntuacionFinal", "get").mockReturnValue(8);
+  // Assert
+  expect(resultado).toBe("perdido");
+});
+});
 
 

@@ -1,5 +1,6 @@
 import {
-    juego
+    juego,
+    Estado
   } from "./model";
 
 export const dameCarta = () => Math.floor(Math.random() * 10) + 1;
@@ -16,6 +17,15 @@ export const generarNumeroCarta = (numeroCarta: number) => {
    export const calculaPuntacion = () => {
     juego.puntuacionFinal = juego.puntuacionFinal + puntuacionCarta(juego.numeroCarta);
   };
+
+  export const comprobarPartida = (puntuacionTotal: number) : Estado => {
+    if (puntuacionTotal === 7.5) {
+      return "ganado";
+    } else if (puntuacionTotal > 7.5) {
+      return "perdido";
+    }
+    return "jugando";
+  }
 
     export const obternerImagenCarta = (carta:number) => {
         switch (carta) {

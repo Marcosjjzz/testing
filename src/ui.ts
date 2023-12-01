@@ -1,5 +1,7 @@
+
 import {
-    juego
+    juego,
+    Estado
   } from "./model";
   
   import {
@@ -7,6 +9,7 @@ import {
       generarNumeroCarta,
       obternerImagenCarta,
       calculaPuntacion,
+      comprobarPartida,
   } from "./motor";
 
   export const deshabilitarBoton = (elementoId: string) => {
@@ -42,15 +45,16 @@ import {
   }
   const repartoCarta = () => {
     const numeroAlAzar = dameCarta(); // dame un numero al Azar
-     juego.numeroCarta = generarNumeroCarta(numeroAlAzar);
-     mostrarCarta(juego.numeroCarta);
-     calculaPuntacion();
-     muestraPuntuacion();
-     habilitarBoton("plantate");
-     comprobarPartida();
-   };
+    juego.numeroCarta = generarNumeroCarta(numeroAlAzar);
+    mostrarCarta(juego.numeroCarta);
+    calculaPuntacion();
+    muestraPuntuacion();
+    habilitarBoton("plantate");
+    const comprobacion = comprobarPartida (juego.puntuacionFinal);
+    ganadoPerdido(comprobacion);
+  };
 
-const comprobarBoton = document.getElementById("damecarta");
+  const comprobarBoton = document.getElementById("damecarta");
 if (comprobarBoton !== null && comprobarBoton !== undefined && comprobarBoton instanceof HTMLButtonElement){
 comprobarBoton.addEventListener("click", repartoCarta);
 };
@@ -109,11 +113,11 @@ const saberBoton = document.getElementById("saber");
 if (saberBoton !== null && saberBoton !== undefined && saberBoton instanceof HTMLButtonElement){
     saberBoton.addEventListener("click", saberPuntuacion);
 }
-const ganadoPerdido = (comprobar : boolean) => { 
-  if (comprobar === true){
+const ganadoPerdido = (estado: Estado) => { 
+  if (estado === "ganado"){
       ganar();
 
-  } else {
+  } else if (estado === "perdido") {
       perdido();
   }
 };
@@ -143,13 +147,9 @@ deshabilitarBoton("saber");
   }
   }
   
-  export const comprobarPartida = () => {
-    if (juego.puntuacionFinal === 7.5) {
-            ganadoPerdido(true);
-    } else if (juego.puntuacionFinal > 7.5) {
-            ganadoPerdido(false);
-      }
-    }
+
+
+
   
   const puntuacionSaber = () => {
     if (juego.puntuacionFinal === 7.5) {
